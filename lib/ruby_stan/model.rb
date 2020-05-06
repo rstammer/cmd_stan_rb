@@ -14,10 +14,13 @@ class RubyStan::Model
   attr_accessor :compiled_model_path, :name, :data
   attr_reader :model_string, :model_file
 
+  MODEL_DIR = "vendor/cmdstan/ruby_stan"
+
   def initialize(name, &block)
     @name = name
     @model_string = block.call
-    @model_file = File.open("models/#{name}", "w")
+    `mkdir -p #{MODEL_DIR}/#{name}`
+    @model_file = File.open("#{MODEL_DIR}/#{name}/#{name}.stan", "w")
     @model_file.write(@model_string)
     @model_file.rewind
   end
@@ -29,16 +32,22 @@ class RubyStan::Model
     file
   end
 
+  def target
+    "ruby_stan/#{name}/#{name}"
+  end
+
   # Main interactions
   #
   #
 
   def compile
-    system("make -C #{RubyStan.configuration.cmdstan_dir} #{model_file.path}")
+    cmd = "make -C #{RubyStan.configuration.cmdstan_dir} #{target}"
+    puts cmd
+    system(cmd)
   end
 
   def fit
-    `#{model_file.path} sample data file=#{data_file.path}`
+    `#{MODEL_DIR}/#{name}/#{name} sample data file=#{data_file.path}`
   end
 
   def show
