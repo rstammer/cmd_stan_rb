@@ -1,21 +1,5 @@
 # RubyStan
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'ruby_stan'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install ruby_stan
-
 ## Before you can start…
 
 After cloning _this_ repository, you need to get `CmdStan` on board. Suggestion: Do it this way:
@@ -25,41 +9,42 @@ After cloning _this_ repository, you need to get `CmdStan` on board. Suggestion:
 ## Usage
 
 
-    # First, let's do some setup.
-    # You need to have the stan compiler
-    # and the output tooling built for your system
-    RubyStan.build_binaries
+```Ruby
+# First, let's do some setup.
+# You need to have the stan compiler
+# and the output tooling built for your system
+RubyStan.build_binaries
 
 
-    model =
-      RubyStan::Model.new("bernoulli-test") do
-        # Stan code goes here as a string
-        %q{
-          data {
-            int<lower=0> N;
-            int<lower=0,upper=1> y[N];
-          }
+model =
+  RubyStan::Model.new("bernoulli-test") do
+    # Stan code goes here as a string
+    %q{
+      data {
+        int<lower=0> N;
+        int<lower=0,upper=1> y[N];
+      }
 
-          parameters {
-            real<lower=0,upper=1> theta;
-          }
+      parameters {
+        real<lower=0,upper=1> theta;
+      }
 
-          model {
-            theta ~ beta(1,1);  // uniform prior on interval 0,1
-            y ~ bernoulli(theta);
-          }
-        }
-      end
-
-    model.data = {
-      "N" => 4,
-      "y" => [0,1,0,0]
+      model {
+        theta ~ beta(1,1);  // uniform prior on interval 0,1
+        y ~ bernoulli(theta);
+      }
     }
+  end
 
-    model.compile
-    model.fit
-    puts model.show
+model.data = {
+  "N" => 4,
+  "y" => [0,1,0,0]
+}
 
+model.compile
+model.fit
+puts model.show
+```
 
 The latter command shows the simulation result:
 
