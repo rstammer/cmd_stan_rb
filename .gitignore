@@ -8,5 +8,7 @@
 /tmp/
 /models/
 /vendor/
+*.csv
+/output/
 # rspec failure tracking
 .rspec_status
