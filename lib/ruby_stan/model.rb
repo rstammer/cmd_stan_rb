@@ -14,7 +14,7 @@ class RubyStan::Model
   attr_accessor :compiled_model_path, :name, :data
   attr_reader :model_string, :model_file
 
-  MODEL_DIR = "vendor/cmdstan/ruby_stan"
+  MODEL_DIR = "output"
 
   def initialize(name, &block)
     @name = name
@@ -26,14 +26,14 @@ class RubyStan::Model
   end
 
   def data_file
-    file = Tempfile.new("#{name}.json")
+    file = File.open("#{MODEL_DIR}/#{name}/#{name}.json", "w")
     file.write(data.to_json)
     file.rewind
     file
   end
 
   def target
-    "ruby_stan/#{name}/#{name}"
+    "../../#{MODEL_DIR}/#{name}/#{name}"
   end
 
   # Main interactions
@@ -47,11 +47,14 @@ class RubyStan::Model
   end
 
   def fit
-    `#{MODEL_DIR}/#{name}/#{name} sample data file=#{data_file.path}`
+    `chmod +x #{MODEL_DIR}/#{name}/#{name}`
+    cmd = "#{MODEL_DIR}/#{name}/#{name} sample data file=#{data_file.path}"
+    puts cmd
+    `#{cmd}`
   end
 
   def show
-    system("#{RubyStan.configuration.cmdstan_dir}/bin/stansummary #{RubyStan.configuration.cmdstan_dir}/output.csv")
+    `#{RubyStan.configuration.cmdstan_dir}/bin/stansummary output.csv`
   end
 
   def destroy
