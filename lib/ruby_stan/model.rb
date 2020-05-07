@@ -25,6 +25,34 @@ class RubyStan::Model
     @model_file.rewind
   end
 
+  # Main interactions
+  #
+  #
+
+  def compile
+    cmd = "make -C #{RubyStan.configuration.cmdstan_dir} #{target}"
+    system(cmd)
+    {state: :ok, target: target}
+  end
+
+  def fit
+    `chmod +x #{MODEL_DIR}/#{name}/#{name}`
+    cmd = "#{MODEL_DIR}/#{name}/#{name} sample data file=#{data_file.path}"
+    `#{cmd}`
+    {state: :ok, data: data}
+  end
+
+  def show
+    `#{RubyStan.configuration.cmdstan_dir}/bin/stansummary output.csv`
+  end
+
+  def destroy
+    # TODO: Cleanup all files generates
+    model_file.unlink
+  end
+
+  private
+
   def data_file
     file = File.open("#{MODEL_DIR}/#{name}/#{name}.json", "w")
     file.write(data.to_json)
@@ -34,30 +62,5 @@ class RubyStan::Model
 
   def target
     "../../#{MODEL_DIR}/#{name}/#{name}"
-  end
-
-  # Main interactions
-  #
-  #
-
-  def compile
-    cmd = "make -C #{RubyStan.configuration.cmdstan_dir} #{target}"
-    puts cmd
-    system(cmd)
-  end
-
-  def fit
-    `chmod +x #{MODEL_DIR}/#{name}/#{name}`
-    cmd = "#{MODEL_DIR}/#{name}/#{name} sample data file=#{data_file.path}"
-    puts cmd
-    `#{cmd}`
-  end
-
-  def show
-    `#{RubyStan.configuration.cmdstan_dir}/bin/stansummary output.csv`
-  end
-
-  def destroy
-    model_file.unlink
   end
 end
