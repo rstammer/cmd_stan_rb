@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["robin.neumann@posteo.de"]
 
   spec.summary       = %q{Ruby bindings for Stan, a high performance statistical computing platform}
-  spec.description   = %q{Stan is a state-of-the-art platform for statistical modeling and high-performance statistical computation. Thousands of users rely on Stan for statistical modeling, data analysis, and prediction in the social, biological, and physical sciences, engineering, and business. RubyStan offers bindings in Ruby to Stan.}
+  spec.description   = %q{Stan is a state-of-the-art platform for statistical modeling and high-performance statistical computation. Thousands of users rely on Stan for statistical modeling, data analysis, and prediction in the social, biological, and physical sciences, engineering, and business. RubyStan offers bindings in Ruby to employ Stan, targeting easing up the integration of Stan and Bayesian Inference into Ruby-powered environments.}
   spec.homepage      = "https://github.com/neumanrq/ruby_stan"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
