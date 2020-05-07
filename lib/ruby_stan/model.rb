@@ -64,7 +64,7 @@
   end
 
   def target
-    "../../#{MODEL_DIR}/#{name}/#{name}"
+    "#{working_directory}/#{MODEL_DIR}/#{name}/#{name}"
   end
 
   def working_directory
