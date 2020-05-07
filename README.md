@@ -2,20 +2,29 @@
 
 ## Before you can start…
 
-After cloning _this_ repository, you need to get `CmdStan` on board. Suggestion: Do it this way:
+After cloning _this_ repository, you need to get `CmdStan` on board. The easiest
+way is cloning the repository to a location of your choice:
 
-    cd vendor; git clone https://github.com/stan-dev/cmdstan
+    git clone https://github.com/stan-dev/cmdstan
+
+You need to remember the path to that directory, as we need RubyStan to point
+to that directory.
 
 ## Usage
 
 
 ```Ruby
-# First, let's do some setup.
-# You need to have the stan compiler
-# and the output tooling built for your system
+# Tell RubyStan where your CmdStan repository is located.
+# If you skip this step, the default value is "vendor/cmdstan"
+# as I have cloned it there for my experimentation.
+RubyStan.configuration.cmdstan_dir = "~/path/to/cmdstan"
+
+# Prepare Stan compiler and assistent tooling
 RubyStan.build_binaries
 
-
+# Now we're ready to fit some models 👨‍🔬
+# First, define your model. The first argument is a name,
+# which is used to identify your model for re-use later.
 model =
   RubyStan::Model.new("bernoulli-test") do
     # Stan code goes here as a string
@@ -36,13 +45,19 @@ model =
     }
   end
 
+# Translate model
+model.compile
+
+# Specify data you've observed
 model.data = {
   "N" => 4,
   "y" => [0,1,0,0]
 }
 
-model.compile
+# Run simulation to obtain samples from posterior distribution
 model.fit
+
+# Print result
 puts model.show
 ```
 

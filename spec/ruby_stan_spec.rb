@@ -8,7 +8,7 @@ RSpec.describe RubyStan do
       expect(RubyStan.configuration).to respond_to(:cmdstan_dir)
     end
 
-    xit "can set CmdStan directory" do
+    it "can set CmdStan directory" do
       expect { RubyStan.configuration.cmdstan_dir = "~/somewhere" }
         .to change { RubyStan.configuration.cmdstan_dir }
         .to("~/somewhere")

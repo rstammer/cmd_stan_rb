@@ -1,7 +1,9 @@
 ﻿module RubyStan
   class Configuration
-    def cmdstan_dir
-      "vendor/cmdstan"
+    attr_accessor :cmdstan_dir
+
+    def initialize
+      self.cmdstan_dir = "vendor/cmdstan"
     end
   end
 end
