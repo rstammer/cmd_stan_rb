@@ -7,11 +7,17 @@
 
   def initialize(name, &block)
     @name = name
+
+    # I'd like to invent a convenient DSL that
+    # is similar to writing "direct" Stan code,
+    # but to do so I need to get a better understanding
+    # of Stan as a language/DSL itself. Until that
+    # I "approximate" my goal by using a block for initialization,
+    # where the block always needs to return the Stan model
+    # as a string. You can load it from a file or write in directly!
     @model_string = block.call
-    `mkdir -p #{MODEL_DIR}/#{name}`
-    @model_file = File.open("#{MODEL_DIR}/#{name}/#{name}.stan", "w")
-    @model_file.write(@model_string)
-    @model_file.rewind
+
+    create_model_file!
   end
 
   # Main interactions
@@ -41,6 +47,13 @@
   end
 
   private
+
+  def create_model_file!
+    `mkdir -p #{MODEL_DIR}/#{name}`
+    @model_file = File.open("#{MODEL_DIR}/#{name}/#{name}.stan", "w")
+    @model_file.write(@model_string)
+    @model_file.rewind
+  end
 
   def data_file
     file = File.open("#{MODEL_DIR}/#{name}/#{name}.json", "w")
