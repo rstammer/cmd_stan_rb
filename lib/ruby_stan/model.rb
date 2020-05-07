@@ -27,12 +27,13 @@
   def compile
     cmd = "make -C #{RubyStan.configuration.cmdstan_dir} #{target}"
     system(cmd)
-    {state: :ok, target: target}
+    {state: :ok, target: target, working_directory: working_directory}
   end
 
   def fit
-    `chmod +x #{MODEL_DIR}/#{name}/#{name}`
-    cmd = "#{MODEL_DIR}/#{name}/#{name} sample data file=#{data_file.path}"
+    `chmod +x #{working_directory}/#{MODEL_DIR}/#{name}/#{name}`
+    cmd = "#{working_directory}/#{MODEL_DIR}/#{name}/#{name} sample data file=#{data_file.path}"
+    puts cmd
     `#{cmd}`
     {state: :ok, data: data}
   end
@@ -64,5 +65,9 @@
 
   def target
     "../../#{MODEL_DIR}/#{name}/#{name}"
+  end
+
+  def working_directory
+    @wd ||= `pwd`.gsub("\n", "")
   end
 end

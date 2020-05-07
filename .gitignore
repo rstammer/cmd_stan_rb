@@ -12,3 +12,5 @@
 /output/
 # rspec failure tracking
 .rspec_status
+/.ipynb_checkpoints/
+*.gem
