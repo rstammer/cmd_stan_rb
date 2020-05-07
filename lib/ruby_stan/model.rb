@@ -1,15 +1,4 @@
-﻿#  Example - bernoulli model: examples/bernoulli/bernoulli.stan
-#
-#     1. Build the model:
-#        > make examples/bernoulli/bernoulli
-#     2. Run the model:
-#        > examples/bernoulli/bernoulli sample data file=examples/bernoulli/bernoulli.data.R
-#     3. Look at the samples:
-#        > bin/stansummary output.csv
-
-#
-# model = RubyStan::Model.new("b1") { RubyStan::Model::BERNOULLI_EXAMPLE }; model.data={"N" => 4, "y" => [0,1,0,0]}
-class RubyStan::Model
+﻿class RubyStan::Model
 
   attr_accessor :compiled_model_path, :name, :data
   attr_reader :model_string, :model_file
