@@ -86,6 +86,6 @@ The latter command shows the simulation result:
     convergence, R_hat=1).
     
     
-    ### Usage within Jupyter notebooks (with iruby kernel)
-    
-    ![ruby_stan-with-iruby](https://user-images.githubusercontent.com/3685123/81400924-77a44980-912e-11ea-8474-5faa358c58f9.png)
+  
+### Usage within Jupyter notebooks (with iruby kernel)
+![ruby_stan-with-iruby](https://user-images.githubusercontent.com/3685123/81400924-77a44980-912e-11ea-8474-5faa358c58f9.png)
