@@ -29,6 +29,7 @@ are battle-tested similar projects for other Programming languages are i.e.
 
   * [CmdStanPy](https://github.com/stan-dev/cmdstanpy)
   * [CmdStanR](https://github.com/stan-dev/cmdstanr)
+  * [stannis][https://github.com/sakrejda/stannis]
 
 Because of its dependency to `CmdStan`, you need to get `CmdStan` on board to
 make `RubyStan` work. In the future I'd like to happen this automatically, but
