@@ -1,5 +1,12 @@
-# RubyStan [![Build Status](https://travis-ci.org/neumanrq/ruby_stan.svg?branch=master)](https://travis-ci.org/neumanrq/ruby_stan)
+# RubyStan
 
+
+Ruby interface to Stan, a library a for performing high performance statistical computations, i.e.
+full Bayesian Inference.
+
+![stan_logo](https://raw.githubusercontent.com/stan-dev/logos/master/logo.png)
+
+[![Build Status](https://travis-ci.org/neumanrq/ruby_stan.svg?branch=master)](https://travis-ci.org/neumanrq/ruby_stan)
 
 ## Before you can start…
 
