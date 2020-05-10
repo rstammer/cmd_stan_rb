@@ -3,8 +3,6 @@
   attr_accessor :compiled_model_path, :name, :data
   attr_reader :model_string, :model_file
 
-  MODEL_DIR = "output"
-
   def initialize(name, &block)
     @name = name
 
@@ -31,9 +29,8 @@
   end
 
   def fit
-    `chmod +x #{working_directory}/#{MODEL_DIR}/#{name}/#{name}`
-    cmd = "#{working_directory}/#{MODEL_DIR}/#{name}/#{name} sample data file=#{data_file.path}"
-    puts cmd
+    `chmod +x #{RubyStan.configuration.model_dir}/#{name}/#{name}`
+    cmd = "#{RubyStan.configuration.model_dir}/#{name}/#{name} sample data file=#{data_file.path}"
     `#{cmd}`
     {state: :ok, data: data}
   end
@@ -43,28 +40,30 @@
   end
 
   def destroy
-    # TODO: Cleanup all files generates
-    model_file.unlink
+    path = "#{RubyStan.configuration.model_dir}/#{name}"
+    `rm -rvf #{path}`
+    {state: :ok, destroyed_path: path}
   end
 
   private
 
   def create_model_file!
-    `mkdir -p #{MODEL_DIR}/#{name}`
-    @model_file = File.open("#{MODEL_DIR}/#{name}/#{name}.stan", "w")
+    `mkdir -p #{RubyStan.configuration.model_dir}/#{name}`
+    filename = "#{RubyStan.configuration.model_dir}/#{name}/#{name}.stan"
+    @model_file = File.open(filename, "w")
     @model_file.write(@model_string)
     @model_file.rewind
   end
 
   def data_file
-    file = File.open("#{MODEL_DIR}/#{name}/#{name}.json", "w")
+    file = File.open("#{RubyStan.configuration.model_dir}/#{name}/#{name}.json", "w")
     file.write(data.to_json)
     file.rewind
     file
   end
 
   def target
-    "#{working_directory}/#{MODEL_DIR}/#{name}/#{name}"
+    "#{RubyStan.configuration.model_dir}/#{name}/#{name}"
   end
 
   def working_directory

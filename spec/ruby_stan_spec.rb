@@ -13,6 +13,16 @@ RSpec.describe RubyStan do
         .to change { RubyStan.configuration.cmdstan_dir }
         .to("~/somewhere")
     end
+
+    it "knows where to store models" do
+      expect(RubyStan.configuration).to respond_to(:model_dir)
+    end
+
+    it "can set directory where to store models" do
+      expect { RubyStan.configuration.model_dir = "~/somewhere-else" }
+        .to change { RubyStan.configuration.model_dir }
+        .to("~/somewhere-else")
+    end
   end
 
   describe ".reset" do
