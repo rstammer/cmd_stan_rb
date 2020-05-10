@@ -1,4 +1,4 @@
-﻿module RubyStan
+﻿module Stan
   module Examples
     class << self
       def bernoulli

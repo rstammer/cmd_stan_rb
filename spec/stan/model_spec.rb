@@ -1,11 +1,12 @@
 ﻿require "spec_helper"
 
-RSpec.describe RubyStan::Model do
+RSpec.describe Stan::Model do
+
+  before do
+    allow_any_instance_of(described_class).to receive(:create_model_file!).and_return(nil)
+  end
 
   describe "its constructor" do
-    before do
-      allow(subject).to receive(:create_model_file!).and_return(nil)
-    end
 
     subject do
       described_class.new("bernoulli-test") do

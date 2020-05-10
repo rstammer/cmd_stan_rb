@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "ruby_stan"
+require "cmd_stan_rb"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

@@ -1,5 +1,5 @@
-# RubyStan
-[![Build Status](https://travis-ci.org/neumanrq/ruby_stan.svg?branch=master)](https://travis-ci.org/neumanrq/ruby_stan)
+# CmdStanRb
+[![Build Status](https://travis-ci.org/neumanrq/cmd_stan_rb.svg?branch=master)](https://travis-ci.org/neumanrq/cmd_stan_rb)
 
 Ruby interface to Stan, a library a for performing high performance statistical computations, i.e.
 full Bayesian Inference.
@@ -11,11 +11,11 @@ full Bayesian Inference.
 
 ## Installation
 
-    gem install ruby_stan
+    gem install cmd_stan_rb
 
 ## Installation for IRuby notebooks
 
-    gem install ruby_stan
+    gem install cmd_stan_rb
 
 … and then re-register your Ruby kernel by
 
@@ -32,36 +32,36 @@ are battle-tested similar projects for other Programming languages are i.e.
   * [stannis](https://github.com/sakrejda/stannis])
 
 Because of its dependency to `CmdStan`, you need to get `CmdStan` on board to
-make `RubyStan` work. In the future I'd like to happen this automatically, but
+make `CmdStanRb` work. In the future I'd like to happen this automatically, but
 for now you need to do this manually.
 
 The easiest way is cloning the repository to a location of your choice:
 
     git clone https://github.com/stan-dev/cmdstan
 
-Then, remember the path to that directory, as we need RubyStan to point
+Then, remember the path to that directory, as we need CmdStanRb to point
 to that directory by setting a config variable
 
 ## Usage
 
 
 ```Ruby
-# Tell RubyStan where your CmdStan repository is located.
+# Tell CmdStanRb where your CmdStan repository is located.
 # If you skip this step, the default value is "vendor/cmdstan"
 # as I have cloned it there for my experimentation.
-RubyStan.configuration.cmdstan_dir = "~/path/to/cmdstan"
+CmdStanRb.configuration.cmdstan_dir = "~/path/to/cmdstan"
 
-# Optional: Tell RubyStan where to store the models
-RubyStan.configuration.model_dir = "/Users/robin/ruby_stan-models"
+# Optional: Tell CmdStanRb where to store the models
+CmdStanRb.configuration.model_dir = "/Users/robin/cmd_stan_rb-models"
 
 # Prepare Stan compiler and assistent tooling
-RubyStan.build_binaries
+CmdStanRb.build_binaries
 
 # Now we're ready to fit some models 👨‍🔬
 # First, define your model. The first argument is a name,
 # which is used to identify your model for re-use later.
 model =
-  RubyStan::Model.new("bernoulli-test") do
+  Stan::Model.new("bernoulli-test") do
     # Stan code goes here as a string
     %q{
       data {
@@ -120,24 +120,22 @@ The latter command shows the simulation result:
     and R_hat is the potential scale reduction factor on split chains (at
     convergence, R_hat=1).
 
-
-
-### Usage within Jupyter notebooks (with iruby kernel)
-![ruby_stan-with-iruby](https://user-images.githubusercontent.com/3685123/81400924-77a44980-912e-11ea-8474-5faa358c58f9.png)
-
-
 ### Loading previously compiled models
 
-RubyStan stores models in a diretory you can define by
+CmdStanRb stores models in a diretory you can define by
 
-    RubyStan.configuration.model_dir = "/Users/robin/ruby_stan-models"
+```Ruby
+CmdStanRb.configuration.model_dir = "/Users/robin/cmd_stan_rb-models"
+```
 
-If you skip this, RubyStan will create a folder in your home directory named `ruby_stan-models` and store
+If you skip this, CmdStanRb will create a folder in your home directory named `cmd_stan_rb-models` and store
 the model files and the compiled model binaries there.
 
 Having compiled a model with name `my-model-01`, you can load it again by
 
-    model = RubyStan::Model.load("my-model-01")
+```Ruby
+model = Stan::Model.load("my-model-01")
+```
 
 Note that once loaded, the model's data has been wiped out, so `model.data` is blank and
 needs to get set again to fit again.
