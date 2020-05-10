@@ -1,13 +1,13 @@
 # RubyStan
+[![Build Status](https://travis-ci.org/neumanrq/ruby_stan.svg?branch=master)](https://travis-ci.org/neumanrq/ruby_stan)
 
 Ruby interface to Stan, a library a for performing high performance statistical computations, i.e.
 full Bayesian Inference.
 
 <a href="https://mc-stan.org">
-  <img src="https://raw.githubusercontent.com/stan-dev/logos/master/logo.png" width=300 alt="Stan Logo"/>
+  <img src="https://raw.githubusercontent.com/stan-dev/logos/master/logo.png" width=200 alt="Stan Logo"/>
 </a>
 
-[![Build Status](https://travis-ci.org/neumanrq/ruby_stan.svg?branch=master)](https://travis-ci.org/neumanrq/ruby_stan)
 
 ## Installation
 
@@ -29,7 +29,7 @@ are battle-tested similar projects for other Programming languages are i.e.
 
   * [CmdStanPy](https://github.com/stan-dev/cmdstanpy)
   * [CmdStanR](https://github.com/stan-dev/cmdstanr)
-  * [stannis][https://github.com/sakrejda/stannis]
+  * [stannis](https://github.com/sakrejda/stannis])
 
 Because of its dependency to `CmdStan`, you need to get `CmdStan` on board to
 make `RubyStan` work. In the future I'd like to happen this automatically, but
