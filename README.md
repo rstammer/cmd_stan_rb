@@ -1,22 +1,45 @@
 # RubyStan
 
-
 Ruby interface to Stan, a library a for performing high performance statistical computations, i.e.
 full Bayesian Inference.
 
-![stan_logo](https://raw.githubusercontent.com/stan-dev/logos/master/logo.png)
+<a href="https://mc-stan.org">
+  <img src="https://raw.githubusercontent.com/stan-dev/logos/master/logo.png" width=300 alt="Stan Logo"/>
+</a>
 
 [![Build Status](https://travis-ci.org/neumanrq/ruby_stan.svg?branch=master)](https://travis-ci.org/neumanrq/ruby_stan)
 
+## Installation
+
+    gem install ruby_stan
+
+## Installation for IRuby notebooks
+
+    gem install ruby_stan
+
+… and then re-register your Ruby kernel by
+
+    iruby register --force
+
 ## Before you can start…
 
-After cloning _this_ repository, you need to get `CmdStan` on board. The easiest
-way is cloning the repository to a location of your choice:
+This project makes use of [CmdStan](https://github.com/stan-dev/cmdstan) to compile models
+with the Stan compiler and incorporating additional tooling from the Stan ecosystem. There
+are battle-tested similar projects for other Programming languages are i.e.
+
+  * [CmdStanPy](https://github.com/stan-dev/cmdstanpy)
+  * [CmdStanR](https://github.com/stan-dev/cmdstanr)
+
+Because of its dependency to `CmdStan`, you need to get `CmdStan` on board to
+make `RubyStan` work. In the future I'd like to happen this automatically, but
+for now you need to do this manually.
+
+The easiest way is cloning the repository to a location of your choice:
 
     git clone https://github.com/stan-dev/cmdstan
 
-You need to remember the path to that directory, as we need RubyStan to point
-to that directory.
+Then, remember the path to that directory, as we need RubyStan to point
+to that directory by setting a config variable
 
 ## Usage
 
