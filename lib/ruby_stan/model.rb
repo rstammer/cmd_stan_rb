@@ -36,16 +36,14 @@
   #
 
   def compile
-    cmd = "make -C #{RubyStan.configuration.cmdstan_dir} #{target}"
-    system(cmd)
+    system(commands[:compile])
     {state: :ok, target: target, working_directory: working_directory}
   end
 
   def fit
     raise NoDataGivenError.new("Please specify your model's data before running simulations!") if data.nil?
     `chmod +x #{RubyStan.configuration.model_dir}/#{name}/#{name}`
-    cmd = "#{RubyStan.configuration.model_dir}/#{name}/#{name} sample data file=#{data_file.path}"
-    `#{cmd}`
+    `#{commands[:fit]}`
     {state: :ok, data: data}
   end
 
@@ -57,6 +55,13 @@
     path = "#{RubyStan.configuration.model_dir}/#{name}"
     `rm -rvf #{path}`
     {state: :ok, destroyed_path: path}
+  end
+
+  def commands
+    {
+      compile: "make -C #{RubyStan.configuration.cmdstan_dir} #{target}",
+      fit: "#{RubyStan.configuration.model_dir}/#{name}/#{name} sample data file=#{data_file.path}"
+    }
   end
 
   private
@@ -95,4 +100,5 @@
   def filename
     "#{RubyStan.configuration.model_dir}/#{name}/#{name}.stan"
   end
+
 end
