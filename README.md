@@ -92,3 +92,20 @@ The latter command shows the simulation result:
 
 ### Usage within Jupyter notebooks (with iruby kernel)
 ![ruby_stan-with-iruby](https://user-images.githubusercontent.com/3685123/81400924-77a44980-912e-11ea-8474-5faa358c58f9.png)
+
+
+### Loading previously compiled models
+
+RubyStan stores models in a diretory you can define by
+
+    RubyStan.configuration.model_dir = "/Users/robin/ruby_stan-models"
+
+If you skip this, RubyStan will create a folder in your home directory named `ruby_stan-models` and store
+the model files and the compiled model binaries there.
+
+Having compiled a model with name `my-model-01`, you can load it again by
+
+    model = RubyStan::Model.load("my-model-01")
+
+Note that once loaded, the model's data has been wiped out, so `model.data` is blank and
+needs to get set again to fit again.

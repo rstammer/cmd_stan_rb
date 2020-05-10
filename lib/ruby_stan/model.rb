@@ -1,7 +1,14 @@
 ﻿class RubyStan::Model
+  class NoDataGivenError < StandardError ;; end
 
   attr_accessor :compiled_model_path, :name, :data
   attr_reader :model_string, :model_file
+
+  class << self
+    def load(name)
+      new(name)
+    end
+  end
 
   def initialize(name, &block)
     @name = name
@@ -13,9 +20,15 @@
     # I "approximate" my goal by using a block for initialization,
     # where the block always needs to return the Stan model
     # as a string. You can load it from a file or write in directly!
-    @model_string = block.call
+    @model_string = block.call if block_given?
 
-    create_model_file!
+    `mkdir -p #{model_directory}` unless Dir.exists?(model_directory)
+
+    if File.exists?(filename)
+      load_model_file
+    else
+      create_model_file!
+    end
   end
 
   # Main interactions
@@ -29,6 +42,7 @@
   end
 
   def fit
+    raise NoDataGivenError.new("Please specify your model's data before running simulations!") if data.nil?
     `chmod +x #{RubyStan.configuration.model_dir}/#{name}/#{name}`
     cmd = "#{RubyStan.configuration.model_dir}/#{name}/#{name} sample data file=#{data_file.path}"
     `#{cmd}`
@@ -47,9 +61,13 @@
 
   private
 
+  def load_model_file
+    @model_file = File.open(filename, "r")
+    @model_string = @model_file.read
+    @model_file.rewind
+  end
+
   def create_model_file!
-    `mkdir -p #{RubyStan.configuration.model_dir}/#{name}`
-    filename = "#{RubyStan.configuration.model_dir}/#{name}/#{name}.stan"
     @model_file = File.open(filename, "w")
     @model_file.write(@model_string)
     @model_file.rewind
@@ -68,5 +86,13 @@
 
   def working_directory
     @wd ||= `pwd`.gsub("\n", "")
+  end
+
+  def model_directory
+    "#{RubyStan.configuration.model_dir}/#{name}"
+  end
+
+  def filename
+    "#{RubyStan.configuration.model_dir}/#{name}/#{name}.stan"
   end
 end

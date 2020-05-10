@@ -21,4 +21,10 @@ RSpec.describe RubyStan::Model do
       expect(subject.name).to eql("bernoulli-test")
     end
   end
+
+  describe "#load" do
+    subject { described_class.load("my-model-1") }
+    it { expect(subject.name).to eql("my-model-1") }
+  end
+
 end
