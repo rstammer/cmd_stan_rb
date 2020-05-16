@@ -8,6 +8,7 @@
 /tmp/
 /models/
 /vendor/
+/examples/.ipynb_checkpoints/
 *.csv
 /output/
 # rspec failure tracking
