@@ -44,6 +44,7 @@ to that directory by setting a config variable
 
 ## Usage
 
+To see some examples with detailed context, you may want to consult [one of the example jupyter notebooks](https://github.com/neumanrq/cmd_stan_rb/tree/master/examples). I.e, [here's how one performs linear regression](https://github.com/neumanrq/cmd_stan_rb/blob/master/examples/linear_regression.ipynb) with CmdStandRb. If you like monkeys and pirates, check the [example of an A/B test by fitting models based on exponential distribution](https://github.com/neumanrq/cmd_stan_rb/blob/master/examples/exponential.ipynb).
 
 ```Ruby
 # Tell CmdStanRb where your CmdStan repository is located.
