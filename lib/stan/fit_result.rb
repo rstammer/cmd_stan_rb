@@ -19,7 +19,7 @@
     def define_histograms!
       headers.each do |parameter|
         define_singleton_method parameter do
-          parameter_index = parameters.index(parameter)
+          parameter_index = headers.index(parameter)
           data_rows.each_with_object({}) do |row, hash|
             v = row[parameter_index].to_f.round(1)
             hash[v] = (hash[v] || 0) + 1
