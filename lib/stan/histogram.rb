@@ -11,7 +11,7 @@
       @list.each_with_object({}) do |item, hash|
         bin =
           if bin_size.to_f > 0
-            (item / bin_size).round * bin_size
+            (item.to_f / bin_size).round * bin_size
           else
             item
           end
