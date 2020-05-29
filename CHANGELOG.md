@@ -1,5 +1,9 @@
 ﻿### Head (Not released yet)
 
+### v0.3.0
+* Added simple output capturing Ruby object (`Stan::FitResult`) which offers
+access to posterior distributions of the model parameters
+
 ### v0.2.0
 
 * Renaming to CmdStanRb (See #5)
