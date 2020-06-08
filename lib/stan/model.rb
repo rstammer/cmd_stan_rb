@@ -41,9 +41,9 @@
       raise NoDataGivenError.new("Please specify your model's data before running simulations!") if data.nil?
 
       `chmod +x #{CmdStanRb.configuration.model_dir}/#{name}/#{name}`
-      `#{commands[:fit]}`
+      `#{commands[:fit].to_s}`
 
-      {data: data}
+      Stan::FitResult.new(output_csv)
     end
 
     def show
@@ -96,6 +96,12 @@
 
     def filename
       "#{CmdStanRb.configuration.model_dir}/#{name}/#{name}.stan"
+    end
+
+    def output_csv
+      File.read("output.csv")
+    rescue
+      ""
     end
 
   end
