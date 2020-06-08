@@ -19,6 +19,16 @@ RSpec.describe Stan::Model do
     it "sets the name" do
       expect(subject.name).to eql("bernoulli-test")
     end
+
+    context "with invalid name" do
+      subject do
+        described_class.new("1") do
+          Stan::Examples.bernoulli
+        end
+      end
+
+      it { expect { subject }.to raise_error(described_class::InvalidNameError) }
+    end
   end
 
   describe "#load" do

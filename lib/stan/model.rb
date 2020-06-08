@@ -1,9 +1,11 @@
 ﻿module Stan
   class Model
     class NoDataGivenError < StandardError ;; end
+    class InvalidNameError < StandardError ;; end
 
-    attr_accessor :compiled_model_path, :name, :data
-    attr_reader :model_string, :model_file, :last_compiled_at
+    attr_accessor :data
+    attr_reader :compiled_model_path, :model_string, :model_file,
+                :name, :last_compiled_at
 
     class << self
       def load(name)
@@ -12,6 +14,7 @@
     end
 
     def initialize(name, &block)
+      raise InvalidNameError.new("Please ensure that the model name does not start with a number!") if (name.to_s =~ /^\d/)
       @name = name
       @model_string = block.call if block_given?
 
