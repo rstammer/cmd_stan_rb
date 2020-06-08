@@ -3,7 +3,7 @@
     class NoDataGivenError < StandardError ;; end
 
     attr_accessor :compiled_model_path, :name, :data
-    attr_reader :model_string, :model_file
+    attr_reader :model_string, :model_file, :last_compiled_at
 
     class << self
       def load(name)
@@ -29,15 +29,21 @@
     #
 
     def compile
-      system(commands[:compile])
-      {state: :ok, target: target, working_directory: working_directory}
+      if system(commands[:compile].to_s)
+        @last_compiled_at = Time.now
+        true
+      else
+        false
+      end
     end
 
     def fit
       raise NoDataGivenError.new("Please specify your model's data before running simulations!") if data.nil?
+
       `chmod +x #{CmdStanRb.configuration.model_dir}/#{name}/#{name}`
       `#{commands[:fit]}`
-      {state: :ok, data: data}
+
+      {data: data}
     end
 
     def show
@@ -45,9 +51,7 @@
     end
 
     def destroy
-      path = "#{CmdStanRb.configuration.model_dir}/#{name}"
-      `rm -rvf #{path}`
-      {state: :ok, destroyed_path: path}
+      `rm -rvf #{model_directory}`
     end
 
     def commands
