@@ -18,7 +18,7 @@
       @name = name
       @model_string = block.call if block_given?
 
-      `mkdir -p #{model_directory}` unless Dir.exists?(model_directory)
+      FileUtils.mkdir_p(model_directory) unless Dir.exists?(model_directory)
 
       if File.exists?(filename)
         load_model_file
@@ -43,7 +43,7 @@
     def fit
       raise NoDataGivenError.new("Please specify your model's data before running simulations!") if data.nil?
 
-      `chmod +x #{CmdStanRb.configuration.model_dir}/#{name}/#{name}`
+      FileUtils.chmod(0755, "#{CmdStanRb.configuration.model_dir}/#{name}/#{name}")
       `#{commands[:fit].to_s}`
 
       Stan::FitResult.new(output_csv)
@@ -54,7 +54,7 @@
     end
 
     def destroy
-      `rm -rvf #{model_directory}`
+      FileUtils.rm_rf(model_directory)
     end
 
     def commands
