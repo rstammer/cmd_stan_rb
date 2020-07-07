@@ -42,6 +42,10 @@ The easiest way is cloning the repository to a location of your choice:
 Then, remember the path to that directory, as we need CmdStanRb to point
 to that directory by setting a config variable
 
+Sometimes you have to `cd` into your `cmdstan` directory and run
+
+    git submodule update --init --recursive
+
 ## Usage
 
 To see some examples with detailed context, you may want to consult [one of the example jupyter notebooks](https://github.com/neumanrq/cmd_stan_rb/tree/master/examples). I.e, [here's how one performs linear regression](https://github.com/neumanrq/cmd_stan_rb/blob/master/examples/linear_regression.ipynb) with CmdStandRb. If you like monkeys and pirates, check the [example of an A/B test by fitting models based on exponential distribution](https://github.com/neumanrq/cmd_stan_rb/blob/master/examples/exponential.ipynb).
@@ -49,7 +53,6 @@ To see some examples with detailed context, you may want to consult [one of the 
 ```Ruby
 # Tell CmdStanRb where your CmdStan repository is located.
 # If you skip this step, the default value is "vendor/cmdstan"
-# as I have cloned it there for my experimentation.
 CmdStanRb.configuration.cmdstan_dir = "~/path/to/cmdstan"
 
 # Optional: Tell CmdStanRb where to store the models
@@ -91,7 +94,7 @@ model.data = {
 }
 
 # Run simulation to obtain samples from posterior distribution
-model.fit
+result = model.fit
 
 # Print result
 puts model.show
@@ -120,6 +123,22 @@ The latter command shows the simulation result:
     For each parameter, N_Eff is a crude measure of effective sample size,
     and R_hat is the potential scale reduction factor on split chains (at
     convergence, R_hat=1).
+
+### Diving deeper into the model output
+
+```Ruby
+original_output = File.read("output.csv")
+fit_result = Stan::FitResult.new(original_output)
+
+# Access posterior distribtions for parameters by methods:
+fit_result.theta
+
+# If you are within an IRuby jupyter notebook, you can plot the distribution
+require "iruby/chartkick"
+include IRuby::Chartkick
+IRuby.display IRuby.html("<h3>Posterior distribution of parameter alpha</h3>")
+column_chart(fit_result.theta)
+```
 
 ### Loading previously compiled models
 
