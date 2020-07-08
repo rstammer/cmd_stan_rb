@@ -126,19 +126,11 @@ The latter command shows the simulation result:
 
 ### Diving deeper into the model output
 
-```Ruby
-original_output = File.read("output.csv")
-fit_result = Stan::FitResult.new(original_output)
+The return value of `model.fit`, called `posterior` below, holds all (sampled) posterior distributions
+for each parameter, like `theta`. For each parameter there is a method generated with the same name. The
+method returns a Ruby Hash reflecting the sampled posterior distribution of that parameter.
 
-# Access posterior distribtions for parameters by methods:
-fit_result.theta
-
-# If you are within an IRuby jupyter notebook, you can plot the distribution
-require "iruby/chartkick"
-include IRuby::Chartkick
-IRuby.display IRuby.html("<h3>Posterior distribution of parameter alpha</h3>")
-column_chart(fit_result.theta)
-```
+<img width="1018" alt="Screenshot 2020-07-08 at 08 34 21" src="https://user-images.githubusercontent.com/3685123/86885606-d7e74580-c0f5-11ea-9586-975b90ea34dc.png">
 
 ### Loading previously compiled models
 
