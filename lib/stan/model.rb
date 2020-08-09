@@ -40,13 +40,15 @@
       end
     end
 
-    def fit(warm_up: 5000, samples: 5000)
+    def fit(warmup: 1000, samples: 1000, save_warmup: false, thin: 1)
       raise NoDataGivenError.new("Please specify your model's data before running simulations!") if data.nil?
 
       additional_arguments =
        [
-         "num_warmup=#{warm_up.to_i}",
-         "num_samples=#{samples.to_i}"
+         "num_samples=#{samples.to_i}",
+         "num_warmup=#{warmup.to_i}",
+         "save_warmup=#{!!save_warmup ? 1 : 0}",
+         "thin=#{thin}",
        ].join(" ")
 
       FileUtils.chmod(0755, "#{CmdStanRb.configuration.model_dir}/#{name}/#{name}")

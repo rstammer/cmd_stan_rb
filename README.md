@@ -94,7 +94,7 @@ model.data = {
 }
 
 # Run simulation to obtain samples from posterior distribution
-result = model.fit
+result = model.fit(warmup: 500, samples: 2000) # Arguments are optional
 
 # Print result
 puts model.show
