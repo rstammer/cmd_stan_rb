@@ -40,10 +40,25 @@
       end
     end
 
-    def fit
+    def fit(warm_up: 5000, samples: 5000)
       raise NoDataGivenError.new("Please specify your model's data before running simulations!") if data.nil?
 
+      additional_arguments =
+       [
+         "num_warmup=#{warm_up.to_i}",
+         "num_samples=#{samples.to_i}"
+       ].join(" ")
+
       FileUtils.chmod(0755, "#{CmdStanRb.configuration.model_dir}/#{name}/#{name}")
+
+      commands[:fit] = [
+        commands[:model_binary],
+        "sample",
+        additional_arguments,
+        "data",
+        "file=#{data_file.path}"
+      ].join(" ")
+
       `#{commands[:fit].to_s}`
 
       Stan::FitResult.new(output_csv)
@@ -58,10 +73,11 @@
     end
 
     def commands
-      {
-        compile: "make -C #{CmdStanRb.configuration.cmdstan_dir} #{target}",
-        fit: "#{CmdStanRb.configuration.model_dir}/#{name}/#{name} sample data file=#{data_file.path}"
-      }
+      @commands ||=
+        {
+          compile: "make -C #{CmdStanRb.configuration.cmdstan_dir} #{target}",
+          model_binary: "#{CmdStanRb.configuration.model_dir}/#{name}/#{name}"
+        }
     end
 
     private
