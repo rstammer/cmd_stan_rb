@@ -1,5 +1,5 @@
 # CmdStanRb
-[![Build Status](https://travis-ci.org/neumanrq/cmd_stan_rb.svg?branch=master)](https://travis-ci.org/neumanrq/cmd_stan_rb)
+[![Build Status](https://travis-ci.org/rstammer/cmd_stan_rb.svg?branch=master)](https://travis-ci.org/rstammer/cmd_stan_rb)
 
 Ruby interface to Stan, a library a for performing high performance statistical computations, i.e.
 full Bayesian Inference.
