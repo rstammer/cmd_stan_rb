@@ -1,0 +1,2 @@
+gem build cmd_stan_rb.gemspec | gem install
+iruby register --force
