@@ -35,9 +35,12 @@ Because of its dependency to `CmdStan`, you need to get `CmdStan` on board to
 make `CmdStanRb` work. In the future I'd like to happen this automatically, but
 for now you need to do this manually.
 
-The easiest way is cloning the repository to a location of your choice:
+The easiest way is cloning the repository to a location of your choice. I'd
+recommend moving it inside the directory of `cmd_stan_rb` under a subfolder
+named `vendor`:
 
-    git clone https://github.com/stan-dev/cmdstan
+
+    cd cmd_stan_rb && mkdir vendor && cd vendor && git clone https://github.com/stan-dev/cmdstan
 
 Then, remember the path to that directory, as we need CmdStanRb to point
 to that directory by setting a config variable
