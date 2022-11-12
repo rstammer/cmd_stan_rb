@@ -13,24 +13,17 @@
       @headers = rows[headers_index].to_s.split(",")
 
       # set data rows
-      data_rows_start_index = nil
-      (headers_index + 1).upto(rows.length - 1) do |row_index|
-      row = rows[row_index]
-        if data_row?(row)
-          data_rows_start_index = row_index
-          break
+      data_rows_start_index =
+        (headers_index + 1).upto(rows.length - 1).detect do |row_index|
+          data_row?(rows[row_index])
         end
-      end
 
       # last few lines are not actually data values but elapsed time
-      data_rows_end_index = nil
-      (rows.length - 1).downto(headers_index + 1) do |row_index|
-        row = rows[row_index]
-        if data_row?(row)
-          data_rows_end_index = row_index
-          break
+      data_rows_end_index =
+        (rows.length - 1).downto(headers_index + 1).detect do |row_index|
+          data_row?(rows[row_index])
         end
-      end
+
       @data_rows = rows[data_rows_start_index..data_rows_end_index].map { |r| r.split(",") }
 
       define_histograms!
