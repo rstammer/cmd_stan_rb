@@ -3,9 +3,28 @@
     attr_reader :rows, :headers, :data_rows
 
     def initialize(original_output)
-      @rows = Array(original_output.split("\n"))
-      @headers = rows[38].to_s.split(",") # In L39 there is the header column
-      @data_rows = rows[43..].map { |r| r.split(",") } # From L44 on there is the raw data!
+      # sometimes \r remains without the chomp
+      @rows = Array(original_output.split("\n").map(&:chomp))
+
+      # set headers
+      headers_index = rows.index do |row|
+        header_row?(row)
+      end
+      @headers = rows[headers_index].to_s.split(",")
+
+      # set data rows
+      data_rows_start_index =
+        (headers_index + 1).upto(rows.length - 1).detect do |row_index|
+          data_row?(rows[row_index])
+        end
+
+      # last few lines are not actually data values but elapsed time
+      data_rows_end_index =
+        (rows.length - 1).downto(headers_index + 1).detect do |row_index|
+          data_row?(rows[row_index])
+        end
+
+      @data_rows = rows[data_rows_start_index..data_rows_end_index].map { |r| r.split(",") }
 
       define_histograms!
     end
@@ -26,6 +45,20 @@
           end.sort.to_h
         end
       end
+    end
+
+    # the first line that has no hash sign at the start AND at least seven words separated by a comma
+    def header_row?(row)
+      # in case a row is something not a string
+      row_string = row.to_s
+      row_string[0] != "#" && row_string.split(",").length >= 7
+    end
+
+    # data rows has numbers without a hash sign AND has the same entries as the length of the header
+    def data_row?(row)
+      # in case a row is something not a string
+      row_string = row.to_s
+      row_string[0] != "#" && row_string.split(",").length == headers.length
     end
   end
 end
