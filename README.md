@@ -8,7 +8,7 @@ full Bayesian Inference.
   <img src="https://raw.githubusercontent.com/stan-dev/logos/master/logo.png" width=200 alt="Stan Logo"/>
 </a>
 
-## Attention: This repository is no longer maintained actively
+## ⚠️ Attention: This repository is no longer maintained actively
 
 Hi everyone! There's a very similar and well-shaped Ruby gem, [cmdstan-ruby](https://github.com/ankane/cmdstan-ruby). To not waste precious development energy, I decided not to 
 continue active development of my own Ruby gem and want everyone encourage to use and contribute to [cmdstan-ruby](https://github.com/ankane/cmdstan-ruby) instead to 
